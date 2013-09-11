@@ -24,8 +24,27 @@
 			maxZoom: 18,
 			attribution: 'Odin'
 		}).addTo(map);
+		var SmallIcon = L.Icon.extend({ //smaller junction icon
+			options: {
+			iconSize:	 [6, 6], // size of the icon
+			iconAnchor:   [3, 3], // point of the icon which will correspond to marker's location
+			popupAnchor:  [0, -3] // point from which the popup should open relative to the iconAnchor
+			}
+		});
+
+		var iconHp = new SmallIcon({iconUrl: "<%= asset_path('icons/hps.png') %>"})
 		
+		//Add markers of various types:
+		var marker = L.marker([40.69,-98.21]).addTo(map);
 		
+		<% @points.each do |point| %>
+			var point_<%= point.id %> = L.marker([<%= point.lat %>, <%= point.long %>], {
+				id: <%= point.id %>, title: '<%= point.name %>', height: <%= point.height %>, icon: iconHp
+				}).addTo(map);
+			
+			point_<%= point.id %>.on('click', function (e) {clickMarker(<%= point.id %>, point_<%= point.id %>);});
+		<% end %>
+		function clickMarker(x, y){};
 		
 	</script>
 	
