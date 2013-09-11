@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+  <head>
+		<%= javascript_include_tag "leaflet" %>
+		<%= stylesheet_link_tag "leaflet", media: "all" %>
+		
+    <title>Create</title>
+  </head>
+  <body>
+  <form name='mainForm'>
+  <input type='text' name='route' style='width:70em' value='nj ny pa'>  
+  <input type="button" value="Create" onclick="addPoint(1)">
+  
+  </form>
+  
+  
+  <div id="divMap" style='height: 600px;'>
+	<noscript>This site makes heavy use of javascript.</noscript> 
+	<script>
+		var map = L.map('divMap').setView([40.69,-98.21], 5);
+		
+		//Create the map	
+		L.tileLayer('http://tile.cloudmade.com/f19d6045b0ac4f68bc75b707ac14e3dd/997/256/{z}/{x}/{y}.png', {
+			maxZoom: 18,
+			attribution: 'Odin'
+		}).addTo(map);
+		
+		
+		
+	</script>
+	
+	
+	
+	</div>
+  </body>
+</html>
+
+
+
+

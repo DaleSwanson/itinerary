@@ -1,4 +1,9 @@
 Itinerary::Application.routes.draw do
+	
+	match 'create/', to: 'itinerary#create'
+	
+	
+	
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
