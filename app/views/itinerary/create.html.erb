@@ -2,6 +2,7 @@
 <html>
   <head>
 		<%= javascript_include_tag "leaflet" %>
+		<%= javascript_include_tag "leaflet-providers" %>
 		<%= stylesheet_link_tag "leaflet", media: "all" %>
 		
     <title>Create</title>
@@ -32,6 +33,12 @@
 			popupAnchor:  [0, -4] // point from which the popup should open relative to the iconAnchor
 			}
 		});
+		
+		
+		var baseLayers = {"OpenStreetMap (trails)": L.tileLayer.provider('OpenStreetMap.Mapnik')};
+		L.tileLayer.provider('OpenStreetMap.Mapnik').addTo(map);
+		
+		
 
 		var iconHp = new SmallIcon({iconUrl: "<%= asset_path('icons/hps.png') %>"})
 		
