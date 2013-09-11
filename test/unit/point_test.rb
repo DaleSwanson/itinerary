@@ -13,6 +13,7 @@
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #  distance   :float
+#  short_name :string(255)
 #
 
 require 'test_helper'

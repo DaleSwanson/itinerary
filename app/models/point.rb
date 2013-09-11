@@ -13,8 +13,9 @@
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #  distance   :float
+#  short_name :string(255)
 #
 
 class Point < ActiveRecord::Base
-  attr_accessible :height, :hike, :lat, :long, :name, :state, :type, :distance
+  attr_accessible :height, :hike, :lat, :long, :name, :state, :type, :distance, :short_name
 end
