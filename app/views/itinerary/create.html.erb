@@ -4,19 +4,28 @@
 		<%= javascript_include_tag "leaflet" %>
 		<%= javascript_include_tag "leaflet-providers" %>
 		<%= stylesheet_link_tag "leaflet", media: "all" %>
+		<%= stylesheet_link_tag "create", media: "all" %>
 		
     <title>Create</title>
   </head>
   <body>
+	
+	
+	
+	<div class="header row">
   <form name='mainForm'>
-  <input type='text' name='route' style='width:70em' value='nj ny pa'>  
+  <input type='text' name='route' style='width:98%' value='nj ny pa'><br>
+  Driving Time Scale: <input type='text' name='dtime' style='width:3em' value='1'>
+  Hiking Time Scale: <input type='text' name='htime' style='width:3em' value='1'>
+  </div>
+  
+  <div class="header2 row">
   <input type="button" value="Create" onclick="addPoint(1)">
   <input type="button" value="Clear" onclick="clearRoute()">
   
   </form>
-  
-  
-  <div id="divMap" style='height: 600px;'>
+  </div>
+  <div id="divMap" class="body row">
 	<noscript>This site makes heavy use of javascript.</noscript> 
 	<script>
 		var map = L.map('divMap').setView([40.69,-98.21], 5);
