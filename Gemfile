@@ -14,6 +14,7 @@ end
 group :development, :test do
   gem 'sqlite3', '1.3.7'
   gem 'annotate'
+  gem 'taps'
 end
 
 group :production do
