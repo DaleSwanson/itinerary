@@ -1,6 +1,7 @@
 Itinerary::Application.routes.draw do
 	
 	match 'create/', to: 'itinerary#create'
+	match 'display/:route', to: 'itinerary#display'
 	
 	
 	

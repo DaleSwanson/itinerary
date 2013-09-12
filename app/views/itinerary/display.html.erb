@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+  <head>
+		<%= javascript_include_tag "leaflet-providers" %>
+		<%= stylesheet_link_tag "create", media: "all" %>
+		
+    <title>Display</title>
+  </head>
+  <body>
+	<% @points.each do |point| %>
+		<%= point %>, 
+	<% end %>
+
+  </body>
+</html>
+
+
+
+

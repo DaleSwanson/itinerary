@@ -20,7 +20,17 @@
   </div>
   
   <div class="header2 row">
-  <input type="button" value="Create" onclick="addPoint(1)">
+  <input type="button" value="Create" onclick="makeRoute()">
+  &nbsp;&nbsp;&nbsp;
+  
+  <input type="button" value="Shortest" onclick="changeRoute('Shortest')">
+  <input type="button" value="Accending" onclick="changeRoute('Accending')">
+  <input type="button" value="Descending" onclick="changeRoute('Descending')">
+  <input type="button" value="Admission" onclick="changeRoute('Admission')">
+  <input type="button" value="NE" onclick="changeRoute('NE')">
+  <input type="button" value="SE" onclick="changeRoute('SE')">
+  
+  &nbsp;&nbsp;&nbsp;
   <input type="button" value="Clear" onclick="clearRoute()">
   
   </form>
@@ -75,9 +85,38 @@
 			mainForm.route.value = '';
 		}
 		
+		function changeRoute(route){
+			if (route == "Shortest") {
+				mainForm.route.value = 'S';
+			} else if (route == "Accending") {
+				mainForm.route.value = 'A';
+			} else if (route == "Descending") {
+				mainForm.route.value = 'D';
+			} else if (route == "Admission") {
+				mainForm.route.value = 'Admission';
+			} else if (route == "NE") {
+				mainForm.route.value = 'CT RI MA NH ME VT NY NJ';
+			} else if (route == "SE") {
+				mainForm.route.value = 'VA KY TN GA MS AL FL SC NC';
+			}
+		}
 		
-		
-		
+		function makeRoute()
+		{
+			var listPoints = mainForm.route.value;
+			var hikeScale = mainForm.htime.value;
+			var driveScale = mainForm.dtime.value;
+			
+			listPoints = listPoints.replace(/[^a-zA-Z]/g, ';');
+			
+			var requestUrl = '/display/'+listPoints+'?';
+			if (hikeScale != 1) requestUrl += '&h='+hikeScale;
+			if (driveScale != 1) requestUrl += '&d='+driveScale;
+			
+			window.location.href = requestUrl;
+			//$.get(requestUrl, function(data){});
+			
+		}
 		
 		
 		
