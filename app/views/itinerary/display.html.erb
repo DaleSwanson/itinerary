@@ -7,8 +7,12 @@
     <title>Display</title>
   </head>
   <body>
-	<% @points.each do |point| %>
-		<%= point %>, 
+	<% @points.each_with_index do |point, index| %>
+		<% if @points.to_a[index+1].nil? then break end %>
+		<%= point %> to <%= @points.to_a[index+1] %>: 
+		<%= @segments[index].time %>
+		<%= @segments[index].distance %>
+		<br>
 	<% end %>
 
   </body>
