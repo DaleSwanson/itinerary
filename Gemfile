@@ -12,7 +12,8 @@ group :assets do
 end
 
 group :development, :test do
-  gem 'sqlite3', '1.3.7'
+  #gem 'sqlite3', '1.3.7'
+  gem 'pg'
   gem 'annotate'
   gem 'taps'
 end
