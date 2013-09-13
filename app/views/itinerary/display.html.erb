@@ -7,19 +7,12 @@
     <title>Display</title>
   </head>
   <body>
-	<% @points.each_with_index do |point, index| %>
-		<% if @points.to_a[index+1].nil? then break end %>
-		<%= point %> to <%= @points.to_a[index+1] %>: 
-		<%= @segments[index].time %>
-		<%= @segments[index].distance %>
-		<br>
-	<% end %><br><br><hr>
 	<% currentTime = @startTime %>
 	<% currentDay = 1 %>
 	
 	<table><thead>
 		<tr><td>Task</td><td>Start Time</td><td>End Time</td><td>Duration</td><td>Distance</td><td>Link</td></tr>
-	</thead><tbody><tr><td>Day 1:</td></tr>
+	</thead><tbody><tr><td colspan="6">Day 1:</td></tr>
 	<% @points.each_with_index do |point, index| %>
 		<% if @hikes[index].hp == 1 %>
 			<% hikeDuration = minsToHours(@hikes[index].hike) * @hScale %>
@@ -37,8 +30,8 @@
 				<% currentDay += 1 %>
 				<% currentTime = @startTime %>
 				<% afterTime = currentTime + hikeDuration %>
-				<tr><td>&nbsp;</td></tr>
-				<tr><td>Day <%= currentDay %>:</td></tr>
+				<tr><td colspan="6">&nbsp;</td></tr>
+				<tr><td colspan="6">Day <%= currentDay %>:</td></tr>
 			<% end %>
 			
 			<tr><td>Hike <%= title %></td><td><%= readableHour(currentTime) %></td>
@@ -56,8 +49,8 @@
 			<% currentDay += 1 %>
 			<% currentTime = @startTime %>
 			<% afterTime = currentTime + driveDuration %>
-			<tr><td>&nbsp;</td></tr>
-			<tr><td>Day <%= currentDay %>:</td></tr>
+			<tr><td colspan="6">&nbsp;</td></tr>
+			<tr><td colspan="6">Day <%= currentDay %>:</td></tr>
 		<% end %>
 		
 		
@@ -75,6 +68,8 @@
 	
 	</table>
 	
+	<br><br>
+	<a href= "../create">Create new itinerary</a>
   </body>
 </html>
 
