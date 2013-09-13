@@ -60,14 +60,21 @@
 		
 
 		var iconHp = new SmallIcon({iconUrl: "<%= asset_path('icons/hps.png') %>"})
+		var iconCity = new SmallIcon({iconUrl: "<%= asset_path('icons/cities.png') %>"})
 		
 		//Add markers of various types:
 		<% @points.each do |point| %>
-			var point_<%= point.id %> = L.marker([<%= point.lat %>, <%= point.long %>], {
-				id: <%= point.id %>, title: '<%= point.name %>', abv: '<%= point.short_name %>', height: <%= point.height %>, icon: iconHp
-				}).addTo(map);
-			
-			point_<%= point.id %>.on('click', function (e) {clickMarker(<%= point.id %>, point_<%= point.id %>);});
+			<% if point.hp == 1 %>
+				var point_<%= point.id %> = L.marker([<%= point.lat %>, <%= point.long %>], {
+					id: <%= point.id %>, title: '<%= point.name %>', abv: '<%= point.short_name %>', height: <%= point.height %>, icon: iconHp
+					}).addTo(map);
+				point_<%= point.id %>.on('click', function (e) {clickMarker(<%= point.id %>, point_<%= point.id %>);});
+			<% else %>
+				var point_<%= point.id %> = L.marker([<%= point.lat %>, <%= point.long %>], {
+					id: <%= point.id %>, title: '<%= point.name %>', abv: '<%= point.short_name %>', icon: iconCity
+					}).addTo(map);
+				point_<%= point.id %>.on('click', function (e) {clickMarker(<%= point.id %>, point_<%= point.id %>);});
+			<% end %>
 		<% end %>
 		
 		
