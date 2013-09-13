@@ -19,14 +19,18 @@ class ItineraryController < ApplicationController
 		@pairs = Pair.all;
 		@aliases = Alias.all;
 		@segments = [];
+		@hikes = [];
 		@listOfTimes = [];
 		@listOfDistances = [];
 		temp=''
 		@points.each_with_index do |point, i|
+			this_id = Alias.where(name: point).first.point_id;
+			@hikes << Point.find(this_id);
+			
 			if @points.to_a[i+1].nil? then break end
 			next_point = @points.to_a[i+1]
-			this_id = Alias.where(name: point).first.point_id;
 			next_id = Alias.where(name: next_point).first.point_id;
+			
 			@segments << Pair.where(from_id: this_id, to_id: next_id).first;
 		end
 		

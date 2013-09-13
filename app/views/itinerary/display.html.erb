@@ -21,14 +21,30 @@
 		<tr><td>Task</td><td>Start Time</td><td>End Time</td><td>Duration</td><td>Distance</td><td>Link</td></tr>
 	</thead><tbody><tr><td>Day 1:</td></tr>
 	<% @points.each_with_index do |point, index| %>
-		
-		<% hikeDuration = 1 %>
-		
-		
-		
-		
-		
-		
+		<% if @hikes[index].hp == 1 %>
+			<% hikeDuration = minsToHours(@hikes[index].hike) * @hScale %>
+			<% if !@points.to_a[index+1].nil? %>
+				<% hikeDuration *= 2 %>
+				<% hikeDistance = @hikes[index].distance * 2 %>
+				<% title = "Hike #{@hikes[index].name}, #{@hikes[index].short_name} (RT)" %>
+			<% else %>
+				<% hikeDistance = @hikes[index].distance %>
+				<% title = "Hike #{@hikes[index].name}, #{@hikes[index].short_name} (One Way)" %>
+				
+			<% end %>
+			<% afterTime = currentTime + hikeDuration %>
+			<% if afterTime >= @endTime %>
+				<% currentDay += 1 %>
+				<% currentTime = @startTime %>
+				<% afterTime = currentTime + hikeDuration %>
+				<tr><td>&nbsp;</td></tr>
+				<tr><td>Day <%= currentDay %>:</td></tr>
+			<% end %>
+			
+			<tr><td>Hike <%= title %></td><td><%= readableHour(currentTime) %></td>
+			<td><%= readableHour(afterTime) %></td><td><%= hikeDuration %></td><td><%= hikeDistance %></td></tr>
+			<% currentTime = afterTime %>
+		<% end %>
 		
 		
 		
