@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130913050111) do
+ActiveRecord::Schema.define(:version => 20130913093515) do
 
   create_table "aliases", :force => true do |t|
     t.string   "name"
@@ -41,6 +41,13 @@ ActiveRecord::Schema.define(:version => 20130913050111) do
     t.datetime "updated_at", :null => false
     t.float    "distance"
     t.string   "short_name"
+  end
+
+  create_table "trips", :force => true do |t|
+    t.string   "name"
+    t.string   "route"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
   end
 
 end

@@ -23,12 +23,10 @@
   <input type="button" value="Create" onclick="makeRoute()">
   &nbsp;&nbsp;&nbsp;
   
-  <input type="button" value="Shortest" onclick="changeRoute('Shortest')">
-  <input type="button" value="Accending" onclick="changeRoute('Accending')">
-  <input type="button" value="Descending" onclick="changeRoute('Descending')">
-  <input type="button" value="Admission" onclick="changeRoute('Admission')">
-  <input type="button" value="NE" onclick="changeRoute('NE')">
-  <input type="button" value="SE" onclick="changeRoute('SE')">
+  
+  <% @trips.each do |trip| %>
+		<input type="button" value="<%= trip.name %>" onclick='changeRoute("<%= trip.route %>")'>
+	<% end %>
   
   &nbsp;&nbsp;&nbsp;
   <input type="button" value="Clear" onclick="clearRoute()">
@@ -93,19 +91,7 @@
 		}
 		
 		function changeRoute(route){
-			if (route == "Shortest") {
-				mainForm.route.value = 'S';
-			} else if (route == "Accending") {
-				mainForm.route.value = 'A';
-			} else if (route == "Descending") {
-				mainForm.route.value = 'D';
-			} else if (route == "Admission") {
-				mainForm.route.value = 'Admission';
-			} else if (route == "NE") {
-				mainForm.route.value = 'CT RI MA NH ME VT NY NJ';
-			} else if (route == "SE") {
-				mainForm.route.value = 'VA KY TN GA MS AL FL SC NC';
-			}
+			mainForm.route.value = route;
 		}
 		
 		function makeRoute()

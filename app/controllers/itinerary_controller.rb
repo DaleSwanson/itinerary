@@ -1,6 +1,7 @@
 class ItineraryController < ApplicationController
 	def create
 		@points = Point.all;
+		@trips = Trip.all;
 	end
 
 	def display

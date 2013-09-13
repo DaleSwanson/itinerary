@@ -1,0 +1,20 @@
+# == Schema Information
+#
+# Table name: trips
+#
+#  id         :integer          not null, primary key
+#  name       :string(255)
+#  route      :string(255)
+#  created_at :datetime         not null
+#  updated_at :datetime         not null
+#
+
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  name: MyString
+  route: MyString
+
+two:
+  name: MyString
+  route: MyString
