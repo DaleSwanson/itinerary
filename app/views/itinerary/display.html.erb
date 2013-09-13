@@ -13,8 +13,52 @@
 		<%= @segments[index].time %>
 		<%= @segments[index].distance %>
 		<br>
+	<% end %><br><br><hr>
+	<% currentTime = @startTime %>
+	<% currentDay = 1 %>
+	
+	<table><thead>
+		<tr><td>Task</td><td>Start Time</td><td>End Time</td><td>Duration</td><td>Distance</td><td>Link</td></tr>
+	</thead><tbody><tr><td>Day 1:</td></tr>
+	<% @points.each_with_index do |point, index| %>
+		
+		<% hikeDuration = 1 %>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		<% if @points.to_a[index+1].nil? then break end %>
+		<% nextPoint = @points.to_a[index+1] %>
+		<% driveDuration = minsToHours(@segments[index].time) * @dScale %>
+		<% afterTime = currentTime + driveDuration %>
+		<% if afterTime >= @endTime %>
+			<% currentDay += 1 %>
+			<% currentTime = @startTime %>
+			<% afterTime = currentTime + driveDuration %>
+			<tr><td>&nbsp;</td></tr>
+			<tr><td>Day <%= currentDay %>:</td></tr>
+		<% end %>
+		
+		
+		<tr><td>Drive <%= point %> to <%= nextPoint %></td><td><%= readableHour(currentTime) %></td>
+		<td><%= readableHour(afterTime) %></td><td><%= driveDuration %></td><td><%= @segments[index].distance %></td></tr>
+		<% currentTime = afterTime %>
+		
+		
+		
+		
+		
+		
 	<% end %>
-
+	
+	
+	</table>
+	
   </body>
 </html>
 
