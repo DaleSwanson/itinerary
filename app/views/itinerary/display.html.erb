@@ -9,10 +9,11 @@
   <body>
 	<% currentTime = @startTime %>
 	<% currentDay = 1 %>
+	<% startDay = Date.today %>
 	
 	<table><thead>
 		<tr><td>Task</td><td>Start Time</td><td>End Time</td><td>Duration</td><td>Distance</td><td>Link</td></tr>
-	</thead><tbody><tr><td colspan="6">Day 1:</td></tr>
+	</thead><tbody><tr><td colspan="6"><%= DateString(currentDay, startDay) %></td></tr>
 	<% @points.each_with_index do |point, index| %>
 		<% if @hikes[index].hp == 1 %>
 			<% hikeDuration = minsToHours(@hikes[index].hike) * @hScale %>
@@ -31,7 +32,7 @@
 				<% currentTime = @startTime %>
 				<% afterTime = currentTime + hikeDuration %>
 				<tr><td colspan="6">&nbsp;</td></tr>
-				<tr><td colspan="6">Day <%= currentDay %>:</td></tr>
+				<tr><td colspan="6"><%= DateString(currentDay, startDay) %></td></tr>
 			<% end %>
 			
 			<tr><td>Hike <%= title %></td><td><%= readableHour(currentTime) %></td>
@@ -50,7 +51,7 @@
 			<% currentTime = @startTime %>
 			<% afterTime = currentTime + driveDuration %>
 			<tr><td colspan="6">&nbsp;</td></tr>
-			<tr><td colspan="6">Day <%= currentDay %>:</td></tr>
+			<tr><td colspan="6"><%= DateString(currentDay, startDay) %></td></tr>
 			<% while afterTime >= @endTime do %>
 				<tr><td>Drive <%= point %> to <%= nextPoint %></td><td><%= readableHour(@startTime) %></td>
 				<td><%= readableHour(@endTime) %></td><td><%= readableHour(@endTime - @startTime) %></td><td>&nbsp;</td></tr>
@@ -60,7 +61,7 @@
 				<% driveDuration = roundTo(driveDuration, 2) %>
 				<% afterTime = @startTime + driveDuration %>
 				<tr><td colspan="6">&nbsp;</td></tr>
-				<tr><td colspan="6">Day <%= currentDay %>:</td></tr>
+				<tr><td colspan="6"><%= DateString(currentDay, startDay) %></td></tr>
 			<% end %>
 		<% end %>
 		
