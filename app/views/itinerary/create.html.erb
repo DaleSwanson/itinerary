@@ -100,7 +100,9 @@
 			var hikeScale = mainForm.htime.value;
 			var driveScale = mainForm.dtime.value;
 			
-			listPoints = listPoints.replace(/[^a-zA-Z]/g, ';');
+			listPoints = listPoints.replace(/^[^a-zA-Z]+/, ''); //leading spaces
+			listPoints = listPoints.replace(/[^a-zA-Z]+$/, ''); //trailing spaces
+			listPoints = listPoints.replace(/[^a-zA-Z]+/g, ';');
 			
 			var requestUrl = '/display/'+listPoints+'?';
 			if (hikeScale != 1) requestUrl += '&h='+hikeScale;
