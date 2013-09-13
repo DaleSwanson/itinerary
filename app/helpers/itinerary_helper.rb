@@ -34,7 +34,7 @@ module ItineraryHelper
 	end
 	
 	def DateString(num, start)
-		formattedString = "Day 1 - "+(start + num.days-1).strftime("%A, %B %d")+" : ";
+		formattedString = "Day #{num} - "+(start + num.days-1).strftime("%A, %B %d")+" : ";
 		return formattedString;
 		
 	end
