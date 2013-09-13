@@ -9,7 +9,7 @@
 #  lat        :float
 #  long       :float
 #  height     :integer
-#  type       :integer
+#  hp         :integer
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #  distance   :float

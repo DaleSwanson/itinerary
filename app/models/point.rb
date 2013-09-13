@@ -9,7 +9,7 @@
 #  lat        :float
 #  long       :float
 #  height     :integer
-#  type       :integer
+#  hp         :integer
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #  distance   :float
@@ -17,5 +17,5 @@
 #
 
 class Point < ActiveRecord::Base
-  attr_accessible :height, :hike, :lat, :long, :name, :state, :type, :distance, :short_name
+  attr_accessible :height, :hike, :lat, :long, :name, :state, :hp, :distance, :short_name
 end

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130912075400) do
+ActiveRecord::Schema.define(:version => 20130913050111) do
 
   create_table "aliases", :force => true do |t|
     t.string   "name"
@@ -36,7 +36,7 @@ ActiveRecord::Schema.define(:version => 20130912075400) do
     t.float    "lat"
     t.float    "long"
     t.integer  "height"
-    t.integer  "type"
+    t.integer  "hp"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
     t.float    "distance"
