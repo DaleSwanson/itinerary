@@ -28,31 +28,9 @@ module ItineraryHelper
 		
 	end
   
-  
-  def safeName(name)
-		return name.gsub(/\W/, '') 
+  def roundTo(num, digits)
+		num = "%.#{digits}f" % (num)
+		return num.to_f
 	end
   
-  def iconName(name)
-		return "icon_#{safeName(name)}";
-  end  
-  
-  def highlightName(name)
-		return "hi_icon_#{safeName(name)}";
-  end  
-  
-  def layerName(name)
-		return "layer_#{safeName(name)}";
-  end 
-  
-  def iconSize(id)
-		case id
-		when 1 
-			return "SmallIcon";
-		when 2
-			return "MedIcon";
-		when 3
-			return "LargeIcon";
-		end
-	end 
 end

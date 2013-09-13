@@ -51,6 +51,17 @@
 			<% afterTime = currentTime + driveDuration %>
 			<tr><td colspan="6">&nbsp;</td></tr>
 			<tr><td colspan="6">Day <%= currentDay %>:</td></tr>
+			<% while afterTime >= @endTime do %>
+				<tr><td>Drive <%= point %> to <%= nextPoint %></td><td><%= readableHour(@startTime) %></td>
+				<td><%= readableHour(@endTime) %></td><td><%= readableHour(@endTime - @startTime) %></td><td>&nbsp;</td></tr>
+				
+				<% currentDay += 1 %>
+				<% driveDuration -= @endTime - @startTime %>
+				<% driveDuration = roundTo(driveDuration, 2) %>
+				<% afterTime = @startTime + driveDuration %>
+				<tr><td colspan="6">&nbsp;</td></tr>
+				<tr><td colspan="6">Day <%= currentDay %>:</td></tr>
+			<% end %>
 		<% end %>
 		
 		
