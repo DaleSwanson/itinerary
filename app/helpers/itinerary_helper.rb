@@ -1,14 +1,5 @@
 module ItineraryHelper
 
-  # Returns the full title on a per-page basis.
-  def full_title(page_title)
-    base_title = "Maps for "
-    if page_title.empty?
-      page_title = "Unknown Park"
-    end
-    return "#{base_title} #{page_title}"
-  end
-  
   def randomColor
 		color = "#%06x" % (rand * 0xffffff)
 		return color
@@ -34,7 +25,7 @@ module ItineraryHelper
 	end
 	
 	def DateString(num, start)
-		formattedString = "Day #{num} - "+(start + num.days-1).strftime("%A, %B %d")+" : ";
+		formattedString = "Day #{num} - "+(start + num.days-1).strftime("%A, %B %d")+": ";
 		return formattedString;
 		
 	end

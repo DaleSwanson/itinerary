@@ -8,6 +8,7 @@ class ItineraryController < ApplicationController
 		@route	    = params[:route]
 		@hScale     = params[:h]
 		@dScale	    = params[:d]
+		@oTime	    = params[:o]
 		@startTime  = params[:st]
 		@endTime    = params[:en]
 		
@@ -15,6 +16,7 @@ class ItineraryController < ApplicationController
 		@endTime   ||= 20;
 		@hScale    ||= 1;
 		@dScale    ||= 1;
+		@oTime     ||= 5;
 		
 		@points = @route.split(';');
 		@pairs = Pair.all;
@@ -34,25 +36,6 @@ class ItineraryController < ApplicationController
 			
 			@segments << Pair.where(from_id: this_id, to_id: next_id).first;
 		end
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
 		
 	end
 

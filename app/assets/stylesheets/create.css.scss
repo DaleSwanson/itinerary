@@ -1,5 +1,4 @@
 
-/* Generic pane rules */
 body { margin: 0 }
 .row, .col { overflow: hidden; position: absolute; }
 .row { left: 0; right: 0; }
@@ -7,8 +6,9 @@ body { margin: 0 }
 .scroll-x { overflow-x: auto; }
 .scroll-y { overflow-y: auto; }
 
-.header.row { height: 60px; top: 0; }
-.header2.row { height: 30px; top: 60px; }
+.mainbox.row { height: 30px; top: 0; }
+.options.row { height: 30px; top: 30px; }
+.buttons.row { height: 30px; top: 60px; }
 .body.row { top: 90px; bottom: 0; }
 
 

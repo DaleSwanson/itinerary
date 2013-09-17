@@ -1,89 +1,105 @@
-<!DOCTYPE html>
-<html>
-  <head>
-		<%= javascript_include_tag "leaflet-providers" %>
-		<%= stylesheet_link_tag "create", media: "all" %>
-		
-    <title>Display</title>
-  </head>
-  <body>
-	<% currentTime = @startTime %>
-	<% currentDay = 1 %>
-	<% startDay = Date.today %>
-	
-	<table><thead>
-		<tr><td>Task</td><td>Start Time</td><td>End Time</td><td>Duration</td><td>Distance</td><td>Link</td></tr>
-	</thead><tbody><tr><td colspan="6"><%= DateString(currentDay, startDay) %></td></tr>
-	<% @points.each_with_index do |point, index| %>
-		<% if @hikes[index].hp == 1 %>
-			<% hikeDuration = minsToHours(@hikes[index].hike) * @hScale %>
-			<% if !@points.to_a[index+1].nil? %>
-				<% hikeDuration *= 2 %>
-				<% hikeDistance = @hikes[index].distance * 2 %>
-				<% title = "Hike #{@hikes[index].name}, #{@hikes[index].short_name} (RT)" %>
-			<% else %>
-				<% hikeDistance = @hikes[index].distance %>
-				<% title = "Hike #{@hikes[index].name}, #{@hikes[index].short_name} (One Way)" %>
-				
-			<% end %>
-			<% afterTime = currentTime + hikeDuration %>
-			<% if afterTime >= @endTime %>
-				<% currentDay += 1 %>
-				<% currentTime = @startTime %>
-				<% afterTime = currentTime + hikeDuration %>
-				<tr><td colspan="6">&nbsp;</td></tr>
-				<tr><td colspan="6"><%= DateString(currentDay, startDay) %></td></tr>
-			<% end %>
-			
-			<tr><td>Hike <%= title %></td><td><%= readableHour(currentTime) %></td>
-			<td><%= readableHour(afterTime) %></td><td><%= hikeDuration %></td><td><%= hikeDistance %></td></tr>
-			<% currentTime = afterTime %>
+<head>
+	<meta charset="UTF-8">
+	<%= javascript_include_tag "leaflet-providers" %>
+	<%= stylesheet_link_tag "display", media: "all" %>
+	<%= csrf_meta_tags %>
+  <title>Display Itinerary for: <%= @points.join(', ') %></title>
+</head>
+<body>
+<h1><%= @points.join(' ') %></h1>
+<% currentTime = @startTime %>
+<% currentDay = 1 %>
+<% startDay = Date.today %>
+
+<% totalHikeTime=0 %>
+<% totalHikeDistance=0 %>
+<% totalDriveTime=0 %>
+<% totalDriveDistance=0 %>
+
+
+<table><thead>
+	<tr><td>Task</td><td>Start Time</td><td>End Time</td><td>Duration</td><td>Distance</td><td>Link</td></tr>
+</thead><tbody><tr><td colspan="6"><%= DateString(currentDay, startDay) %></td></tr>
+<% @points.each_with_index do |point, index| %>
+	<%# Loop through each HP in our list, create drive and hike itinerary data %>
+	<%# Code for hike comes first: %>
+	<% if @hikes[index].hp == 1 %> <%# This is a HP and not a city %>
+		<% hikeDuration = (minsToHours(@hikes[index].hike) * @hScale) + minsToHours(@oTime) %>
+		<% if !@points.to_a[index+1].nil? %> <%# This is not the last point %>
+			<% hikeDuration *= 2 %>
+			<% hikeDistance = @hikes[index].distance * 2 %>
+			<% title = "Hike #{@hikes[index].name}, #{@hikes[index].short_name} (RT)" %>
+		<% else %> <%# This is the last point %>
+			<% hikeDistance = @hikes[index].distance %>
+			<% title = "Hike #{@hikes[index].name}, #{@hikes[index].short_name} (One Way)" %>
 		<% end %>
 		
-		
-		
-		<% if @points.to_a[index+1].nil? then break end %>
-		<% nextPoint = @points.to_a[index+1] %>
-		<% driveDuration = minsToHours(@segments[index].time) * @dScale %>
-		<% afterTime = currentTime + driveDuration %>
+		<% totalHikeTime += hikeDuration %>
+		<% totalHikeDistance += hikeDistance %>
+		<% hikeDuration = roundTo(hikeDuration, 2) %>
+		<% afterTime = currentTime + hikeDuration %>
 		<% if afterTime >= @endTime %>
 			<% currentDay += 1 %>
 			<% currentTime = @startTime %>
-			<% afterTime = currentTime + driveDuration %>
+			<% afterTime = currentTime + hikeDuration %>
 			<tr><td colspan="6">&nbsp;</td></tr>
 			<tr><td colspan="6"><%= DateString(currentDay, startDay) %></td></tr>
-			<% while afterTime >= @endTime do %>
-				<tr><td>Drive <%= point %> to <%= nextPoint %></td><td><%= readableHour(@startTime) %></td>
-				<td><%= readableHour(@endTime) %></td><td><%= readableHour(@endTime - @startTime) %></td><td>&nbsp;</td></tr>
-				
-				<% currentDay += 1 %>
-				<% driveDuration -= @endTime - @startTime %>
-				<% driveDuration = roundTo(driveDuration, 2) %>
-				<% afterTime = @startTime + driveDuration %>
-				<tr><td colspan="6">&nbsp;</td></tr>
-				<tr><td colspan="6"><%= DateString(currentDay, startDay) %></td></tr>
-			<% end %>
 		<% end %>
 		
-		
-		<tr><td>Drive <%= point %> to <%= nextPoint %></td><td><%= readableHour(currentTime) %></td>
-		<td><%= readableHour(afterTime) %></td><td><%= driveDuration %></td><td><%= @segments[index].distance %></td></tr>
+		<tr><td>Hike <%= title %></td><td><%= readableHour(currentTime) %></td>
+		<td><%= readableHour(afterTime) %></td><td><%= hikeDuration %></td><td><%= hikeDistance %></td><td>&nbsp;</td></tr>
 		<% currentTime = afterTime %>
-		
-		
-		
-		
-		
-		
 	<% end %>
 	
 	
-	</table>
+	<%# Code for drive: %>
+	<% if @points.to_a[index+1].nil? then break end %>
+	<% nextPoint = @points.to_a[index+1] %>
+	<% driveDuration = minsToHours(@segments[index].time) * @dScale %>
+	<% totalDriveTime += driveDuration %>
+	<% totalDriveDistance = totalDriveDistance + @segments[index].distance %>	
+	<% afterTime = currentTime + driveDuration %>
+	<% if afterTime >= @endTime %>
+		<% currentDay += 1 %>
+		<% currentTime = @startTime %>
+		<% afterTime = currentTime + driveDuration %>
+
+
+		<tr><td colspan="6">&nbsp;</td></tr>
+		<tr><td colspan="6"><%= DateString(currentDay, startDay) %></td></tr>
+		<% while afterTime >= @endTime do %>
+			<tr><td>Drive <%= point %> to <%= nextPoint %></td><td><%= readableHour(@startTime) %></td>
+			<td><%= readableHour(@endTime) %></td><td><%= readableHour(@endTime - @startTime) %></td><td>&nbsp;</td></tr>
+			
+			<% currentDay += 1 %>
+			<% driveDuration -= @endTime - @startTime %>
+			<% driveDuration = roundTo(driveDuration, 2) %>
+			<% afterTime = @startTime + driveDuration %>
+			
+			<tr><td colspan="6">&nbsp;</td></tr>
+			<tr><td colspan="6"><%= DateString(currentDay, startDay) %></td></tr>
+		<% end %>
+	<% end %>
 	
-	<br><br>
-	<a href= "../create">Create new itinerary</a>
-  </body>
-</html>
+	<tr><td>Drive <%= point %> to <%= nextPoint %></td><td><%= readableHour(currentTime) %></td>
+	<td><%= readableHour(afterTime) %></td><td><%= driveDuration %></td><td><%= @segments[index].distance %></td>
+	<td>&nbsp;</td></tr>
+	<% currentTime = afterTime %>
+<% end %>
+
+</table>
+<br><br>
+<table>
+<tr><td>Total Drive Distance</td><td><%= roundTo(totalDriveDistance, 2) %></td></tr>
+<tr><td>Total Drive Time</td><td><%= roundTo(totalDriveTime, 2) %></td></tr>
+<tr><td>Total Hike Distance</td><td><%= roundTo(totalHikeDistance, 2) %></td></tr>
+<tr><td>Total Hike Time</td><td><%= roundTo(totalHikeTime, 2) %></td></tr>
+</table>
+
+
+<br><br>
+<a href= "../create">Create new itinerary</a>
+</body>
 
 
 

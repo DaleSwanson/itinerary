@@ -1,129 +1,132 @@
-<!DOCTYPE html>
-<html>
-  <head>
-		<%= javascript_include_tag "leaflet" %>
-		<%= javascript_include_tag "leaflet-providers" %>
-		<%= stylesheet_link_tag "leaflet", media: "all" %>
-		<%= stylesheet_link_tag "create", media: "all" %>
-		
-    <title>Create</title>
-  </head>
-  <body>
-	
-	
-	
-	<div class="header row">
-  <form name='mainForm'>
-  <input type='text' name='route' style='width:98%' value='nj ny pa'><br>
-  Driving Time Scale: <input type='text' name='dtime' style='width:3em' value='1'>
-  Hiking Time Scale: <input type='text' name='htime' style='width:3em' value='1'>
-  </div>
-  
-  <div class="header2 row">
-  <input type="button" value="Create" onclick="makeRoute()">
-  &nbsp;&nbsp;&nbsp;
-  
-  
-  <% @trips.each do |trip| %>
-		<input type="button" value="<%= trip.name %>" onclick='changeRoute("<%= trip.route %>")'>
-	<% end %>
-  
-  &nbsp;&nbsp;&nbsp;
-  <input type="button" value="Clear" onclick="clearRoute()">
-  
-  </form>
-  </div>
-  <div id="divMap" class="body row">
-	<noscript>This site makes heavy use of javascript.</noscript> 
-	<script>
-		var map = L.map('divMap').setView([40.69,-98.21], 5);
-		
-		//Create the map	
-		L.tileLayer('http://tile.cloudmade.com/f19d6045b0ac4f68bc75b707ac14e3dd/997/256/{z}/{x}/{y}.png', {
-			maxZoom: 18,
-			attribution: 'Odin'
-		}).addTo(map);
-		var SmallIcon = L.Icon.extend({ //smaller junction icon
-			options: {
-			iconSize:	 [8, 8], // size of the icon
-			iconAnchor:   [4, 4], // point of the icon which will correspond to marker's location
-			popupAnchor:  [0, -4] // point from which the popup should open relative to the iconAnchor
-			}
-		});
-		
-		
-		var baseLayers = {"OpenStreetMap (trails)": L.tileLayer.provider('OpenStreetMap.Mapnik')};
-		L.tileLayer.provider('OpenStreetMap.Mapnik').addTo(map);
-		
-		
+<head>
+	<meta charset="UTF-8">
+	<%= javascript_include_tag "leaflet" %>
+	<%= javascript_include_tag "leaflet-providers" %>
+	<%= stylesheet_link_tag "leaflet", media: "all" %>
+	<%= stylesheet_link_tag "create", media: "all" %>
+	<%= csrf_meta_tags %>
+  <title>Create an Itinerary</title>
+</head>
+<body>
 
-		var iconHp = new SmallIcon({iconUrl: "<%= asset_path('icons/hps.png') %>"})
-		var iconCity = new SmallIcon({iconUrl: "<%= asset_path('icons/cities.png') %>"})
-		
-		//Add markers of various types:
-		<% @points.each do |point| %>
-			<% if point.hp == 1 %>
-				var point_<%= point.id %> = L.marker([<%= point.lat %>, <%= point.long %>], {
-					id: <%= point.id %>, title: '<%= point.name %>', abv: '<%= point.short_name %>', height: <%= point.height %>, icon: iconHp
-					}).addTo(map);
-				point_<%= point.id %>.on('click', function (e) {clickMarker(<%= point.id %>, point_<%= point.id %>);});
-			<% else %>
-				var point_<%= point.id %> = L.marker([<%= point.lat %>, <%= point.long %>], {
-					id: <%= point.id %>, title: '<%= point.name %>', abv: '<%= point.short_name %>', icon: iconCity
-					}).addTo(map);
-				point_<%= point.id %>.on('click', function (e) {clickMarker(<%= point.id %>, point_<%= point.id %>);});
-			<% end %>
+
+
+<div class="mainbox row">
+<form name='mainForm'>
+<input type='text' name='route' style='width:98%' value='nj ny pa'><br>
+</div>
+<div class="options row">
+Driving Time Scale: <input type='text' name='dtime' style='width:3em' value='1'>
+Hiking Time Scale: <input type='text' name='htime' style='width:3em' value='1'>
+Overhead Time: <input type='text' name='otime' style='width:7em' value='5'>
+</div>
+
+<div class="buttons row">
+<input type="button" value="Create" onclick="makeRoute()">
+&nbsp;&nbsp;&nbsp;
+
+
+<% @trips.each do |trip| %>
+	<input type="button" value="<%= trip.name %>" onclick='changeRoute("<%= trip.route %>")'>
+<% end %>
+
+&nbsp;&nbsp;&nbsp;
+<input type="button" value="Clear" onclick="clearRoute()">
+
+</form>
+</div>
+<div id="divMap" class="body row">
+<noscript>This site makes heavy use of javascript.</noscript> 
+<script>
+	var map = L.map('divMap').setView([40.69,-98.21], 5);
+	
+	//Create the map	
+	L.tileLayer('http://tile.cloudmade.com/f19d6045b0ac4f68bc75b707ac14e3dd/997/256/{z}/{x}/{y}.png', {
+		maxZoom: 18,
+		attribution: 'Odin'
+	}).addTo(map);
+	var SmallIcon = L.Icon.extend({ //smaller junction icon
+		options: {
+		iconSize:	 [8, 8], // size of the icon
+		iconAnchor:   [4, 4], // point of the icon which will correspond to marker's location
+		popupAnchor:  [0, -4] // point from which the popup should open relative to the iconAnchor
+		}
+	});
+	
+	
+	var baseLayers = {"OpenStreetMap (trails)": L.tileLayer.provider('OpenStreetMap.Mapnik')};
+	L.tileLayer.provider('OpenStreetMap.Mapnik').addTo(map);
+	
+	
+
+	var iconHp = new SmallIcon({iconUrl: "<%= asset_path('icons/hps.png') %>"})
+	var iconCity = new SmallIcon({iconUrl: "<%= asset_path('icons/cities.png') %>"})
+	
+	//Add markers of various types:
+	<% @points.each do |point| %>
+		<% if point.hp == 1 %>
+			var point_<%= point.id %> = L.marker([<%= point.lat %>, <%= point.long %>], {
+				id: <%= point.id %>, title: '<%= point.name %>', abv: '<%= point.short_name %>', height: <%= point.height %>, icon: iconHp
+				}).addTo(map);
+			point_<%= point.id %>.on('click', function (e) {clickMarker(<%= point.id %>, point_<%= point.id %>);});
+		<% else %>
+			var point_<%= point.id %> = L.marker([<%= point.lat %>, <%= point.long %>], {
+				id: <%= point.id %>, title: '<%= point.name %>', abv: '<%= point.short_name %>', icon: iconCity
+				}).addTo(map);
+			point_<%= point.id %>.on('click', function (e) {clickMarker(<%= point.id %>, point_<%= point.id %>);});
 		<% end %>
-		
-		
-		
-		function clickMarker(id, point){
-			addToRoute(point.options.abv);
-			
-		};
-		
-		function addToRoute(abv){
-			mainForm.route.value += ' '+abv;
-		}
-		
-		function clearRoute(){
-			mainForm.route.value = '';
-		}
-		
-		function changeRoute(route){
-			mainForm.route.value = route;
-		}
-		
-		function makeRoute()
-		{
-			var listPoints = mainForm.route.value;
-			var hikeScale = mainForm.htime.value;
-			var driveScale = mainForm.dtime.value;
-			
-			listPoints = listPoints.replace(/^[^a-zA-Z]+/, ''); //leading spaces
-			listPoints = listPoints.replace(/[^a-zA-Z]+$/, ''); //trailing spaces
-			listPoints = listPoints.replace(/[^a-zA-Z]+/g, ';');
-			
-			var requestUrl = '/display/'+listPoints+'?';
-			if (hikeScale != 1) requestUrl += '&h='+hikeScale;
-			if (driveScale != 1) requestUrl += '&d='+driveScale;
-			
-			window.location.href = requestUrl;
-			//$.get(requestUrl, function(data){});
-			
-		}
-		
-		
-		
-		
-		
-	</script>
+	<% end %>
 	
 	
 	
-	</div>
-  </body>
-</html>
+	function clickMarker(id, point){
+		addToRoute(point.options.abv);
+		
+	};
+	
+	function addToRoute(abv){
+		mainForm.route.value += ' '+abv;
+	}
+	
+	function clearRoute(){
+		mainForm.route.value = '';
+	}
+	
+	function changeRoute(route){
+		mainForm.route.value = route;
+	}
+	
+	function makeRoute()
+	{
+		var listPoints = mainForm.route.value;
+		var hikeScale = mainForm.htime.value;
+		var driveScale = mainForm.dtime.value;
+		var overheadTime = mainForm.otime.value;
+		
+		listPoints = listPoints.replace(/^[^a-zA-Z]+/, ''); //leading spaces
+		listPoints = listPoints.replace(/[^a-zA-Z]+$/, ''); //trailing spaces
+		listPoints = listPoints.replace(/[^a-zA-Z]+/g, ';');
+		
+		var requestUrl = '/display/'+listPoints+'?';
+		if (hikeScale != 1) requestUrl += '&h='+hikeScale;
+		if (driveScale != 1) requestUrl += '&d='+driveScale;
+		if (driveScale != 5) requestUrl += '&o='+overheadTime;
+		
+		window.location.href = requestUrl;
+		//$.get(requestUrl, function(data){});
+		
+	}
+	
+	
+	
+	
+	
+</script>
+
+
+
+</div>
+</body>
 
 
 
