@@ -9,14 +9,20 @@ class ItineraryController < ApplicationController
 		@hScale     = params[:h]
 		@dScale	    = params[:d]
 		@oTime	    = params[:o]
-		@startTime  = params[:st]
-		@endTime    = params[:en]
+		@startTime  = params[:s]
+		@endTime    = params[:e]
 		
 		@startTime ||= 6;
 		@endTime   ||= 20;
 		@hScale    ||= 1;
 		@dScale    ||= 1;
 		@oTime     ||= 5;
+		
+		@startTime = @startTime.to_f;
+		@endTime   = @endTime.to_f;
+		@hScale    = @hScale.to_f;
+		@dScale    = @dScale.to_f;
+		@oTime     = @oTime.to_i;
 		
 		@points = @route.split(';');
 		@pairs = Pair.all;
