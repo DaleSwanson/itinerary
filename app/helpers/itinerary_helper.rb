@@ -30,4 +30,17 @@ module ItineraryHelper
 		
 	end
   
+  def driveLink(lat1, long1, lat2, long2)
+		#https://maps.google.com/maps?saddr=39.23,-75.123&daddr=39.99,-74.83
+		baseUrl = "https://maps.google.com/maps?"
+		return baseUrl + "saddr="+lat1.to_s+","+long1.to_s+"&daddr="+lat2.to_s+","+long2.to_s
+	end
+	
+  def hikeLink(name)
+		#https://www.google.com/search?btnl=1&q=site:summitpost.org+Mount+Mansfield%2C+VT
+		baseUrl = "https://www.google.com/search?btnI&q=summitpost.org+"
+		return baseUrl + name.to_s
+	end
+	
+  
 end

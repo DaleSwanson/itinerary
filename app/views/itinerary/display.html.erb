@@ -16,7 +16,6 @@
 <% totalDriveTime=0 %>
 <% totalDriveDistance=0 %>
 
-
 <table><thead>
 	<tr><td>Task</td><td>Start Time</td><td>End Time</td><td>Duration</td><td>Distance</td><td>Link</td></tr>
 </thead><tbody><tr><td colspan="6"><%= DateString(currentDay, startDay) %></td></tr>
@@ -46,8 +45,9 @@
 			<tr><td colspan="6"><%= DateString(currentDay, startDay) %></td></tr>
 		<% end %>
 		
-		<tr><td>Hike <%= title %></td><td><%= readableHour(currentTime) %></td>
-		<td><%= readableHour(afterTime) %></td><td><%= hikeDuration %></td><td><%= hikeDistance %></td><td>&nbsp;</td></tr>
+		<tr><td><%= title %></td><td><%= readableHour(currentTime) %></td>
+		<td><%= readableHour(afterTime) %></td><td><%= hikeDuration %></td><td><%= hikeDistance %></td>
+		<td><a href="<%= hikeLink(@hikes[index].name) %>">Write Up</a></td></tr>
 		<% currentTime = afterTime %>
 	<% end %>
 	
@@ -83,7 +83,7 @@
 	
 	<tr><td>Drive <%= point %> to <%= nextPoint %></td><td><%= readableHour(currentTime) %></td>
 	<td><%= readableHour(afterTime) %></td><td><%= driveDuration %></td><td><%= @segments[index].distance %></td>
-	<td>&nbsp;</td></tr>
+	<td><a href="<%= driveLink(@hikes[index].lat, @hikes[index].long, @hikes[index+1].lat, @hikes[index+1].long) %>">Directions</a></td></tr>
 	<% currentTime = afterTime %>
 <% end %>
 
