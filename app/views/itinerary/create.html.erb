@@ -26,6 +26,8 @@ Overhead Time: <input type='text' name='otime' style='width:3em' value='5'>&nbsp
 <div class="buttons row">
 <input type="button" value="Create" onclick="makeRoute()">
 &nbsp;&nbsp;&nbsp;
+<input type="button" value="Reverse" onclick="reverseRoute()">
+&nbsp;&nbsp;&nbsp;
 <input type="button" value="Clear" onclick="clearRoute()">
 &nbsp;&nbsp;&nbsp;
 
@@ -111,6 +113,16 @@ Overhead Time: <input type='text' name='otime' style='width:3em' value='5'>&nbsp
 			time = Number(time.replace(/\D/g, ''));
 		}
 		return time;
+	}
+	
+	function reverseRoute()
+	{
+		var listPoints = mainForm.route.value;
+		listPoints = listPoints.replace(/^[^a-zA-Z]+/, ''); //leading spaces
+		listPoints = listPoints.replace(/[^a-zA-Z]+$/, ''); //trailing spaces
+		listPoints = listPoints.replace(/[^a-zA-Z]+/g, ';');
+		listPoints = listPoints.split(';').reverse().join(';');
+		mainForm.route.value = listPoints;
 	}
 	
 	function makeRoute()
