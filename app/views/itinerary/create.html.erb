@@ -128,10 +128,11 @@ Overhead Time: <input type='text' name='otime' style='width:7em' value='5'>&nbsp
 		
 		var requestUrl = '/display/'+listPoints+'?';
 		if (startTime != 6) requestUrl += '&s='+startTime;
-		if (startTime != 20) requestUrl += '&e='+endTime;
+		if (endTime != 20) requestUrl += '&e='+endTime;
 		if (hikeScale != 1) requestUrl += '&h='+hikeScale;
 		if (driveScale != 1) requestUrl += '&d='+driveScale;
 		if (overheadTime != 5) requestUrl += '&o='+overheadTime;
+		requestUrl = requestUrl.replace(/\?$/, ''); //remove trailing ? if no parameters are passed
 		
 		window.location.href = requestUrl;
 	}
