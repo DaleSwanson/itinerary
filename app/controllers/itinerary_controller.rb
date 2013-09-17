@@ -5,7 +5,7 @@ class ItineraryController < ApplicationController
 	end
 
 	def display
-		@route	    = params[:route]
+		@route	    = params[:route].upcase
 		@hScale     = params[:h]
 		@dScale	    = params[:d]
 		@oTime	    = params[:o]
@@ -23,6 +23,11 @@ class ItineraryController < ApplicationController
 		@hScale    = @hScale.to_f;
 		@dScale    = @dScale.to_f;
 		@oTime     = @oTime.to_i;
+		
+		if @endTime <= @startTime
+			@startTime, @endTime = @endTime, @startTime
+			
+		end
 		
 		@points = @route.split(';');
 		@pairs = Pair.all;
