@@ -99,11 +99,26 @@ Overhead Time: <input type='text' name='otime' style='width:7em' value='5'>&nbsp
 		mainForm.route.value = route;
 	}
 	
+	function convert24Hour(time)
+	{
+		if (time.indexOf('p') > 0)
+		{//pm
+			time = Number(time.replace(/\D/g, ''));
+			time += 12;
+		}
+		else
+		{//am
+			time = Number(time.replace(/\D/g, ''));
+		}
+		
+		return time;
+	}
+	
 	function makeRoute()
 	{
 		var listPoints = mainForm.route.value;
-		var startTime = mainForm.stime.value;
-		var endTime = mainForm.etime.value;
+		var startTime = convert24Hour(mainForm.stime.value);
+		var endTime = convert24Hour(mainForm.etime.value);
 		var hikeScale = mainForm.htime.value;
 		var driveScale = mainForm.dtime.value;
 		var overheadTime = mainForm.otime.value;
@@ -120,8 +135,6 @@ Overhead Time: <input type='text' name='otime' style='width:7em' value='5'>&nbsp
 		if (overheadTime != 5) requestUrl += '&o='+overheadTime;
 		
 		window.location.href = requestUrl;
-		//$.get(requestUrl, function(data){});
-		
 	}
 	
 	
