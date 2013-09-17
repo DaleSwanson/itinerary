@@ -2,7 +2,7 @@ Itinerary::Application.routes.draw do
 	
 	match 'create/', to: 'itinerary#create'
 	match 'display/:route', to: 'itinerary#display'
-	
+	root :to => 'itinerary#create'
 	
 	
   # The priority is based upon order of creation:
