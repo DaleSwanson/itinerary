@@ -105,12 +105,12 @@ Overhead Time: <input type='text' name='otime' style='width:3em' value='5'>&nbsp
 	{
 		if (time.indexOf('p') > 0)
 		{//pm
-			time = Number(time.replace(/\D/g, ''));
+			time = Number(time.replace(/[^\d\.]/g, ''));
 			time += 12;
 		}
 		else
 		{//am
-			time = Number(time.replace(/\D/g, ''));
+			time = Number(time.replace(/[^\d\.]/g, ''));
 		}
 		return time;
 	}
