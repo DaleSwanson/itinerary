@@ -1,0 +1,5 @@
+Rails.application.config.assets.precompile += %w( leaflet.js )
+Rails.application.config.assets.precompile += %w( leaflet-providers.js )
+Rails.application.config.assets.precompile += %w( leaflet.css )
+Rails.application.config.assets.precompile += %w( create.css )
+Rails.application.config.assets.precompile += %w( display.css )

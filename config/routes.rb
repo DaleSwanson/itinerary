@@ -1,7 +1,7 @@
 Itinerary::Application.routes.draw do
 	
-	match 'create/', to: 'itinerary#create'
-	match 'display/:route', to: 'itinerary#display'
+	match 'create/' => 'itinerary#create', via: :get
+	match 'display/:route' => 'itinerary#display', via: :get
 	root :to => 'itinerary#create'
 	
 	

@@ -67,4 +67,7 @@ Itinerary::Application.configure do
   
   
   config.assets.precompile += %w( *.css *.js )
+  
+  #Rails 4
+  config.eager_load = true
 end
